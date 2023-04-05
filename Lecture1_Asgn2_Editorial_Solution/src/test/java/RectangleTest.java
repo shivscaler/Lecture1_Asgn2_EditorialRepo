@@ -127,6 +127,37 @@ class RectangleTest {
         Method getAreaMethod = rectangle.getClass().getDeclaredMethod("getArea");
         assertEquals(getAreaMethod.toString(), "int Rectangle.getArea()");
     }
+
+    @Test
+    void getParameterMethodExists(){
+        try {
+            Method getParameterMethod = rectangle.getClass().getDeclaredMethod("getParameter");
+        } catch (NoSuchMethodException e) {
+            fail("get parameter method not found");
+        }
+    }
+
+    @Test
+    void getParameterMethodSignatureCheck() throws NoSuchMethodException {
+        Method getParameterMethod = rectangle.getClass().getDeclaredMethod("getParameter");
+        assertEquals(getParameterMethod.toString(), "int Rectangle.getParameter()");
+    }
+
+    @Test
+    void getBottomRightMethodExists(){
+        try {
+            Method getBottomRightMethod = rectangle.getClass().getDeclaredMethod("getBottomRight");
+        } catch (NoSuchMethodException e) {
+            fail("getBottomRight method not found");
+        }
+    }
+
+    @Test
+    void getBottomRightMethodSignatureCheck() throws NoSuchMethodException {
+        Method getBottomRightMethod = rectangle.getClass().getDeclaredMethod("getBottomRight");
+        assertEquals(getBottomRightMethod.toString(), "Point Rectangle.getBottomRight()");
+    }
+
     @Test
     void getArea() throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException  {
 
