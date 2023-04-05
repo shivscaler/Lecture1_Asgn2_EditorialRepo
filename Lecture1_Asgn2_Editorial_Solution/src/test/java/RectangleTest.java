@@ -114,6 +114,20 @@ class RectangleTest {
     }
 
     @Test
+    void getAreaMethodExists(){
+        try {
+            Method getAreaMethod = rectangle.getClass().getDeclaredMethod("getArea");
+        } catch (NoSuchMethodException e) {
+            fail("get Area method not found");
+        }
+    }
+
+    @Test
+    void getAreaMethodSignatureCheck() throws NoSuchMethodException {
+        Method getAreaMethod = rectangle.getClass().getDeclaredMethod("getArea");
+        assertEquals(getAreaMethod.toString(), "int Rectangle.getArea()");
+    }
+    @Test
     void getArea() throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException  {
 
         Field widthField = rectangle.getClass().getDeclaredField("width");
