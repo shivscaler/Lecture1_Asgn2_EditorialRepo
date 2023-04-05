@@ -1,9 +1,12 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PointTest {
@@ -40,11 +43,13 @@ class PointTest {
 class RectangleTest {
 
     private Rectangle rectangle;
+    private Point point;
     private ByteArrayOutputStream outContent;
 
     @BeforeEach
     void setUp() {
         rectangle = new Rectangle();
+        point = new Point();
     }
 
     @Test
@@ -78,36 +83,68 @@ class RectangleTest {
     }
 
     @Test
-    void getBottomRight(){
-        Point p = new Point();
-        p.x = 3;
-        p.y = 4;
-        rectangle.topLeft = p;
-        rectangle.width = 5;
-        rectangle.height = 6;
+    void getBottomRight() throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 
-        Point bottomRight = rectangle.getBottomRight();
+        Field xField = point.getClass().getDeclaredField("x");
+        xField.setAccessible(true);
+        xField.set(point, 3);
+
+        Field yField = point.getClass().getDeclaredField("y");
+        yField.setAccessible(true);
+        yField.set(point, 4);
+
+        Field topLeftField = rectangle.getClass().getDeclaredField("topLeft");
+        topLeftField.setAccessible(true);
+        topLeftField.set(rectangle, point);
+
+        Field widthField = rectangle.getClass().getDeclaredField("width");
+        widthField.setAccessible(true);
+        widthField.set(rectangle, 5);
+
+        Field heightField = rectangle.getClass().getDeclaredField("height");
+        heightField.setAccessible(true);
+        heightField.set(rectangle, 6);
+
+        Method getBottomRightMethod = rectangle.getClass().getDeclaredMethod("getBottomRight");
+        getBottomRightMethod.setAccessible(true);
+        Point bottomRight = (Point) getBottomRightMethod.invoke(rectangle);
 
         assertEquals(8, bottomRight.x);
         assertEquals(10, bottomRight.y);
     }
 
     @Test
-    void getArea(){
-        rectangle.width = 10;
-        rectangle.height = 5;
+    void getArea() throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException  {
 
-        int area = rectangle.getArea();
+        Field widthField = rectangle.getClass().getDeclaredField("width");
+        widthField.setAccessible(true);
+        widthField.set(rectangle, 10);
+
+        Field heightField = rectangle.getClass().getDeclaredField("height");
+        heightField.setAccessible(true);
+        heightField.set(rectangle, 5);
+
+
+        Method getAreaMethod = rectangle.getClass().getDeclaredMethod("getArea");
+        getAreaMethod.setAccessible(true);
+        int area = (int) getAreaMethod.invoke(rectangle);
 
         assertEquals(50, area);
     }
 
     @Test
-    void getParameter(){
-        rectangle.width = 10;
-        rectangle.height = 5;
+    void getParameter() throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        Field widthField = rectangle.getClass().getDeclaredField("width");
+        widthField.setAccessible(true);
+        widthField.set(rectangle, 10);
 
-        int parameter = rectangle.getParameter();
+        Field heightField = rectangle.getClass().getDeclaredField("height");
+        heightField.setAccessible(true);
+        heightField.set(rectangle, 5);
+
+        Method getParameterMethod = rectangle.getClass().getDeclaredMethod("getParameter");
+        getParameterMethod.setAccessible(true);
+        int parameter = (int) getParameterMethod.invoke(rectangle);
 
         assertEquals(30, parameter);
     }
