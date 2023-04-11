@@ -6,7 +6,7 @@ public class Rectangle {
     Point getBottomRight(){
         Point p = new Point();
         p.x = topLeft.x + width;
-        p.y = topLeft.y + height;
+        p.y = topLeft.y - height;
         return p;
     }
 
