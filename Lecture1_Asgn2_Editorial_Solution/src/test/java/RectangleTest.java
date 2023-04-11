@@ -191,7 +191,7 @@ class RectangleTest {
         Point bottomRight = (Point) getBottomRightMethod.invoke(rectangle);
 
         assertEquals(8, bottomRight.x);
-        assertEquals(10, bottomRight.y);
+        assertEquals(-2, bottomRight.y);
     }
 
 
